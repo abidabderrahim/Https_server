@@ -13,14 +13,12 @@
 #define PORT 4433
 #define CERT_FILEL "server.crt" // Filename of the SSL certificate .
 #define KEY_FILE "server.key" // Filename of the SSL private key .
-#define WEB_ROOT "/path"
+#define WEB_ROOT "/home/rootkill/Desktop/web_app"
 
 void init_openssl(){
 	SSL_library_init(); // initializes the SSL library .
 	OpenSSL_add_all_algorithms(); // Loads all available cryptographic algorithms .
 	SSL_load_error_strings(); // Loads human readable error strings for SSL errors .
-	ERR_load_BIO_strings(); // Load additional error strings for BIO .
-	ERR_load_crypto_strings(); // Load additional error strings for cryptographic .
 }
 
 // Create and Configure SSL Context .
