@@ -23,6 +23,7 @@ Before running the server, make sure you have the following installed:
    To use HTTPS, you need a certificate and a private key. You can generate a self-signed certificate with the following command:
 
    ```bash
+   Update Web Application Directory
    openssl req -new -x509 -days 365 -nodes -out server.crt -keyout server.key
    gcc -o Https_Server Https_Server.c -lssl -lcrypto
    ./Https_Server
