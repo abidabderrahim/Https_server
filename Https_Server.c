@@ -64,7 +64,7 @@ void handle_client(SSL *ssl){
 	if(file_path[0] == '/'){
 		file_path++;
 	}
-	if(strlen(file_apth) == 0){
+	if(strlen(file_path) == 0){
 		file_path = "index.html";
 	}
 
@@ -72,14 +72,14 @@ void handle_client(SSL *ssl){
 	snprintf(full_path, sizeof(full_path), "%s/%s", WEB_ROOT, file_path);
 	
 	if(stat(full_path, &file_stat) == 0 && (file_stat.st_mode & S_IFREG)){
-		file_fd = open(full_path, ORDONLY);
+		file_fd = open(full_path, O_RDONLY);
 		if(file_fd >= 0){
 			snprintf(response, sizeof(response),"HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: %ld\r\n\r\n", file_stat.st_size);
 			SSL_write(ssl, response, strlen(response));
 			while((bytes_read = read(file_fd, buffer, sizeof(buffer))) > 0){
-				SSLL_write(ssl, buffer, bytes_read);
+				SSL_write(ssl, buffer, bytes_read);
 			}
-			close(filel_fd);
+			close(file_fd);
 		}else{
 			snprintf(response, sizeof(response), "HTTP/1.1 404 Not Found\r\nContent-Type: text/html\r\n\r\n"
                      "<html><body><h1>404 Not Found</h1></body></html>");
@@ -121,10 +121,10 @@ int main(){
 		}
 
 		ssl = SSL_new(ctx);
-		SLL_set_fd(ssl, client);
+		SSL_set_fd(ssl, client);
 
 		if(SSL_accept(ssl) <= 0){
-			ERR_print_error_fp(stderr);
+			ERR_print_errors_fp(stderr);
 		}else{
 			handle_client(ssl);
 		}
