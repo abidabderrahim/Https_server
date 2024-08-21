@@ -11,7 +11,7 @@
 #include <openssl/err.h> // Openssl header for error handling .
 
 #define PORT 4433
-#define CERT_FILEL "server.crt" // Filename of the SSL certificate .
+#define CERT_FILE "server.crt" // Filename of the SSL certificate .
 #define KEY_FILE "server.key" // Filename of the SSL private key .
 #define WEB_ROOT "/home/rootkill/Desktop/web_app"
 
@@ -23,7 +23,7 @@ void init_openssl(){
 
 // Create and Configure SSL Context .
 
-SSL_CTX* create_contect(){
+SSL_CTX* create_context(){
 	const SSL_METHOD *method;
 	SSL_CTX *ctx;
 
