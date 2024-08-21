@@ -20,8 +20,6 @@ void init_openssl() {
     SSL_library_init();
     OpenSSL_add_all_algorithms();
     SSL_load_error_strings();
-    ERR_load_BIO_strings();
-    ERR_load_crypto_strings();
 }
 
 // Function to create and configure SSL context
@@ -77,11 +75,9 @@ void handle_client(SSL *ssl) {
         file_path = "index.html"; // Default file
     }
 
-    // Construct full file path
     char full_path[1024];
     snprintf(full_path, sizeof(full_path), "%s/%s", WEB_ROOT, file_path);
 
-    // Open the file
     if (stat(full_path, &file_stat) == 0 && (file_stat.st_mode & S_IFREG)) {
         file_fd = open(full_path, O_RDONLY);
         if (file_fd >= 0) {
@@ -159,13 +155,11 @@ int main() {
             handle_client(ssl);
         }
 
-        // Clean up
         SSL_shutdown(ssl);
         SSL_free(ssl);
         close(client);
     }
-
-    // Clean up and exit
+    
     close(sockfd);
     SSL_CTX_free(ctx);
     return 0;
